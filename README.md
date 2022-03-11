@@ -1,10 +1,21 @@
 ## Usage
 
-To create new serverless AWS TypeScript project using this template run:
+### Requirements
+
+- AWS CLI installation and configuration
+  [Installation](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+[Configuration](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+\*![alt text][logo]
+
+[logo]: https://assets-global.website-files.com/60acbb950c4d6606963e1fed/60acbb950c4d667c3a3e2025_serverless-framework-235f7e57983d270320cba8f86ec0ea65.svg "Serverless Framework"
 
 ```bash
 npm install -g serverless
 ```
+
+To create new serverless AWS TypeScript project using this template run:
 
 ```bash
 serverless create \
@@ -31,6 +42,8 @@ or:
 ```
 yarn install
 ```
+
+To deploy
 
 ## Licence
 
