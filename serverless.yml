@@ -1,0 +1,72 @@
+service: assets-api
+
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  httpApi:
+    cors:
+      allowedOrigins:
+        - http://localhost:3000
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+      allowedMethods:
+        - GET
+      allowCredentials: true
+      exposedResponseHeaders:
+        - Special-Response-Header
+      maxAge: 6000 # In seconds
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - "dynamodb:PutItem"
+            - "dynamodb:GetItem"
+            - "dynamodb:DeleteItem"
+            - "dynamodb:Scan"
+          Resource:
+            - { "Fn::GetAtt": ["AssetsTable", "Arn"] }
+
+functions:
+  createAsset:
+    handler: src/handlers.createAsset
+    events:
+      - httpApi:
+          path: /asset
+          method: post
+  listAssets:
+    handler: src/handlers.listAssets
+    events:
+      - httpApi:
+          path: /assets
+          method: get
+  deleteAsset:
+    handler: src/handlers.deleteAsset
+    events:
+      - httpApi:
+          path: /asset/{id}
+          method: delete
+
+plugins:
+  - serverless-plugin-typescript
+
+resources:
+  Resources:
+    AssetsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: AssetsTable
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        AttributeDefinitions:
+          - AttributeName: assetId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: assetId
+            KeyType: HASH
