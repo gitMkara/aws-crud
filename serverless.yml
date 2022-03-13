@@ -10,6 +10,7 @@ provider:
     cors:
       allowedOrigins:
         - http://localhost:3000
+        - https://main.d8ogqcp1im6r6.amplifyapp.com
       allowedHeaders:
         - Content-Type
         - Authorization
